@@ -56,11 +56,26 @@ public abstract class WirePrefix {
     return verifyPrefix("?TSE", message);
   }
 
+  public static boolean isGroupMessage(String message) {
+    return verifyPrefix("?TSG", message);
+  }
+
+  public static boolean isLeftGroup(String message) {
+    return verifyPrefix("?TSL", message);
+  }
+
+  public static boolean isJoinGroup(String message) {
+    return verifyPrefix("?TSJ", message);
+  }
+
   public static boolean isPrefixedMessage(String message) {
     return isEncryptedMessage(message) ||
            isKeyExchange(message)      ||
            isPreKeyBundle(message)     ||
-           isEndSession(message);
+           isEndSession(message)       ||
+           isGroupMessage(message)     ||
+           isLeftGroup(message)        ||
+           isJoinGroup(message);
   }
 
   public static String calculateKeyExchangePrefix(String message) {
@@ -77,6 +92,18 @@ public abstract class WirePrefix {
 
   public static String calculateEndSessionPrefix(String message) {
     return calculatePrefix(("?TSE" + message).getBytes(), PREFIX_BYTES);
+  }
+
+  public static String calculateGroupMessagePrefix(String message) {
+    return calculatePrefix(("?TSG" + message).getBytes(), PREFIX_BYTES);
+  }
+
+  public static String calculateLeftGroupPrefix(String message) {
+    return calculatePrefix(("?TSL" + message).getBytes(), PREFIX_BYTES);
+  }
+
+  public static String calculateJoinGroupPrefix(String message) {
+    return calculatePrefix(("?TSJ" + message).getBytes(), PREFIX_BYTES);
   }
 
   private static boolean verifyPrefix(String prefixType, String message) {
