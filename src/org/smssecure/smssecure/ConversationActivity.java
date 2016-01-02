@@ -315,7 +315,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
       inflater.inflate(R.menu.conversation_secure_identity, menu);
       inflater.inflate(R.menu.conversation_secure_sms, menu.findItem(R.id.menu_security).getSubMenu());
     } else if (isSingleConversation()) {
-      inflater.inflate(R.menu.conversation_insecure_no_push, menu);
+      inflater.inflate(R.menu.conversation_insecure_start_secure_session, menu);
       inflater.inflate(R.menu.conversation_insecure, menu);
     }
 
@@ -519,7 +519,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
           new AsyncTask<OutgoingEndSessionMessage, Void, Long>() {
             @Override
             protected Long doInBackground(OutgoingEndSessionMessage... messages) {
-              return MessageSender.send(context, masterSecret, messages[0], threadId, false);
+              return MessageSender.send(context, masterSecret, messages[0], threadId);
             }
 
             @Override
@@ -1180,7 +1180,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     new AsyncTask<OutgoingMediaMessage, Void, Long>() {
       @Override
       protected Long doInBackground(OutgoingMediaMessage... messages) {
-        return MessageSender.send(context, masterSecret, messages[0], threadId, true);
+        return MessageSender.send(context, masterSecret, messages[0], threadId);
       }
 
       @Override
@@ -1207,7 +1207,7 @@ public class ConversationActivity extends PassphraseRequiredActionBarActivity
     new AsyncTask<OutgoingTextMessage, Void, Long>() {
       @Override
       protected Long doInBackground(OutgoingTextMessage... messages) {
-        return MessageSender.send(context, masterSecret, messages[0], threadId, true);
+        return MessageSender.send(context, masterSecret, messages[0], threadId);
       }
 
       @Override

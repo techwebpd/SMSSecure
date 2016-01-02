@@ -179,7 +179,6 @@ public class MessageRecipientListItem extends RelativeLayout
       MmsDatabase mmsDatabase = DatabaseFactory.getMmsDatabase(getContext());
       mmsDatabase.removeFailure(record.getId(), failure);
 
-      // TODO: push service disabled
       if (!record.getRecipients().isGroupRecipient()) {
         MessageSender.resend(getContext(), masterSecret, record);
       }

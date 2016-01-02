@@ -216,7 +216,7 @@ public class MessageDetailsActivity extends PassphraseRequiredActionBarActivity 
 
   private void updateRecipients(MessageRecord messageRecord, Recipients recipients) {
     final int toFromRes;
-    if (messageRecord.isMms() && !messageRecord.isPush() && !messageRecord.isOutgoing()) {
+    if (messageRecord.isMms() && !messageRecord.isOutgoing()) {
       toFromRes = R.string.message_details_header__with;
     } else if (messageRecord.isOutgoing()) {
       toFromRes = R.string.message_details_header__to;

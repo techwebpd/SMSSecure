@@ -104,17 +104,9 @@ public abstract class MessageRecord extends DisplayRecord {
     return id;
   }
 
-  public boolean isPush() {
-    return SmsDatabase.Types.isPushType(type) && !SmsDatabase.Types.isForcedSms(type);
-  }
-
   public long getTimestamp() {
     if (SMSSecurePreferences.showSentTime(context)) return getDateSent();
     else                                            return getDateReceived();
-  }
-
-  public boolean isForcedSms() {
-    return SmsDatabase.Types.isForcedSms(type);
   }
 
   public boolean isStaleKeyExchange() {
@@ -131,10 +123,6 @@ public abstract class MessageRecord extends DisplayRecord {
 
   public boolean isIdentityMismatchFailure() {
     return mismatches != null && !mismatches.isEmpty();
-  }
-
-  public boolean isPendingSecureSmsFallback() {
-    return SmsDatabase.Types.isPendingSecureSmsFallbackType(type);
   }
 
   public boolean isBundleKeyExchange() {

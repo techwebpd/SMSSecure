@@ -338,13 +338,7 @@ public class ConversationItem extends LinearLayout
     alertView.setPendingApproval();
     deliveryStatusIndicator.setNone();
     indicatorText.setVisibility(View.VISIBLE);
-
-    if (messageRecord.isPendingSecureSmsFallback()) {
-      //TODO: Remove push code
-      indicatorText.setText("");
-    } else {
-      indicatorText.setText(R.string.ConversationItem_click_to_approve_unencrypted);
-    }
+    indicatorText.setText(R.string.ConversationItem_click_to_approve_unencrypted);
   }
 
   private void setMinimumWidth() {
@@ -586,19 +580,10 @@ public class ConversationItem extends LinearLayout
 
   private void handleMessageApproval() {
     final int title;
-    final int message;
+    final int message = R.string.ConversationItem_click_to_approve_unencrypted_dialog_message;
 
-    if (messageRecord.isPendingSecureSmsFallback()) {
-      //TODO: Remove push code
-      title = -1;
-
-      message = -1;
-    } else {
-      if (messageRecord.isMms()) title = R.string.ConversationItem_click_to_approve_unencrypted_mms_dialog_title;
-      else                       title = R.string.ConversationItem_click_to_approve_unencrypted_sms_dialog_title;
-
-      message = R.string.ConversationItem_click_to_approve_unencrypted_dialog_message;
-    }
+    if (messageRecord.isMms()) title = R.string.ConversationItem_click_to_approve_unencrypted_mms_dialog_title;
+    else                       title = R.string.ConversationItem_click_to_approve_unencrypted_sms_dialog_title;
 
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(title);
@@ -614,7 +599,6 @@ public class ConversationItem extends LinearLayout
             database.markAsInsecure(messageRecord.getId());
           }
           database.markAsOutbox(messageRecord.getId());
-          database.markAsForcedSms(messageRecord.getId());
 
           ApplicationContext.getInstance(context)
                             .getJobManager()
@@ -625,7 +609,6 @@ public class ConversationItem extends LinearLayout
             database.markAsInsecure(messageRecord.getId());
           }
           database.markAsOutbox(messageRecord.getId());
-          database.markAsForcedSms(messageRecord.getId());
 
           ApplicationContext.getInstance(context)
                             .getJobManager()

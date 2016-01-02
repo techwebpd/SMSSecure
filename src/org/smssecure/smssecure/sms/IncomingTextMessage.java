@@ -27,24 +27,20 @@ public class IncomingTextMessage implements Parcelable {
   private final String  sender;
   private final int     senderDeviceId;
   private final int     protocol;
-  private final String  serviceCenterAddress;
   private final boolean replyPathPresent;
   private final String  pseudoSubject;
   private final long    sentTimestampMillis;
   private final String  groupId;
-  private final boolean push;
 
   public IncomingTextMessage(SmsMessage message) {
     this.message              = message.getDisplayMessageBody();
     this.sender               = message.getDisplayOriginatingAddress();
     this.senderDeviceId       = 1;
     this.protocol             = message.getProtocolIdentifier();
-    this.serviceCenterAddress = message.getServiceCenterAddress();
     this.replyPathPresent     = message.isReplyPathPresent();
     this.pseudoSubject        = message.getPseudoSubject();
     this.sentTimestampMillis  = message.getTimestampMillis();
     this.groupId              = null;
-    this.push                 = false;
   }
 
   public IncomingTextMessage(String sender, int senderDeviceId, long sentTimestampMillis, String encodedBody) {
@@ -52,11 +48,9 @@ public class IncomingTextMessage implements Parcelable {
     this.sender               = sender;
     this.senderDeviceId       = senderDeviceId;
     this.protocol             = 31337;
-    this.serviceCenterAddress = "GCM";
     this.replyPathPresent     = true;
     this.pseudoSubject        = "";
     this.sentTimestampMillis  = sentTimestampMillis;
-    this.push                 = true;
     this.groupId = null;
   }
 
@@ -65,12 +59,10 @@ public class IncomingTextMessage implements Parcelable {
     this.sender               = in.readString();
     this.senderDeviceId       = in.readInt();
     this.protocol             = in.readInt();
-    this.serviceCenterAddress = in.readString();
     this.replyPathPresent     = (in.readInt() == 1);
     this.pseudoSubject        = in.readString();
     this.sentTimestampMillis  = in.readLong();
     this.groupId              = in.readString();
-    this.push                 = (in.readInt() == 1);
   }
 
   public IncomingTextMessage(IncomingTextMessage base, String newBody) {
@@ -78,12 +70,10 @@ public class IncomingTextMessage implements Parcelable {
     this.sender               = base.getSender();
     this.senderDeviceId       = base.getSenderDeviceId();
     this.protocol             = base.getProtocol();
-    this.serviceCenterAddress = base.getServiceCenterAddress();
     this.replyPathPresent     = base.isReplyPathPresent();
     this.pseudoSubject        = base.getPseudoSubject();
     this.sentTimestampMillis  = base.getSentTimestampMillis();
     this.groupId              = base.getGroupId();
-    this.push                 = base.isPush();
   }
 
   public IncomingTextMessage(List<IncomingTextMessage> fragments) {
@@ -97,26 +87,10 @@ public class IncomingTextMessage implements Parcelable {
     this.sender               = fragments.get(0).getSender();
     this.senderDeviceId       = fragments.get(0).getSenderDeviceId();
     this.protocol             = fragments.get(0).getProtocol();
-    this.serviceCenterAddress = fragments.get(0).getServiceCenterAddress();
     this.replyPathPresent     = fragments.get(0).isReplyPathPresent();
     this.pseudoSubject        = fragments.get(0).getPseudoSubject();
     this.sentTimestampMillis  = fragments.get(0).getSentTimestampMillis();
     this.groupId              = fragments.get(0).getGroupId();
-    this.push                 = fragments.get(0).isPush();
-  }
-
-  protected IncomingTextMessage(String sender, String groupId)
-  {
-    this.message              = "";
-    this.sender               = sender;
-    this.senderDeviceId       = 1;
-    this.protocol             = 31338;
-    this.serviceCenterAddress = "Outgoing";
-    this.replyPathPresent     = true;
-    this.pseudoSubject        = "";
-    this.sentTimestampMillis  = System.currentTimeMillis();
-    this.groupId              = groupId;
-    this.push                 = true;
   }
 
   public long getSentTimestampMillis() {
@@ -147,10 +121,6 @@ public class IncomingTextMessage implements Parcelable {
     return protocol;
   }
 
-  public String getServiceCenterAddress() {
-    return serviceCenterAddress;
-  }
-
   public boolean isReplyPathPresent() {
     return replyPathPresent;
   }
@@ -169,10 +139,6 @@ public class IncomingTextMessage implements Parcelable {
 
   public boolean isEndSession() {
     return false;
-  }
-
-  public boolean isPush() {
-    return push;
   }
 
   public String getGroupId() {
@@ -194,11 +160,9 @@ public class IncomingTextMessage implements Parcelable {
     out.writeString(sender);
     out.writeInt(senderDeviceId);
     out.writeInt(protocol);
-    out.writeString(serviceCenterAddress);
     out.writeInt(replyPathPresent ? 1 : 0);
     out.writeString(pseudoSubject);
     out.writeLong(sentTimestampMillis);
     out.writeString(groupId);
-    out.writeInt(push ? 1 : 0);
   }
 }

@@ -61,30 +61,14 @@ public class SMSSecurePreferences {
   private static final String THREAD_TRIM_ENABLED              = "pref_trim_threads";
   private static final String LOCAL_NUMBER_PREF                = "pref_local_number";
   private static final String VERIFYING_STATE_PREF             = "pref_verifying";
-  public  static final String REGISTERED_GCM_PREF              = "pref_gcm_registered";
-  private static final String GCM_PASSWORD_PREF                = "pref_gcm_password";
-  private static final String PROMPTED_PUSH_REGISTRATION_PREF  = "pref_prompted_push_registration";
   private static final String PROMPTED_DEFAULT_SMS_PREF        = "pref_prompted_default_sms";
-  private static final String SIGNALING_KEY_PREF               = "pref_signaling_key";
-  private static final String DIRECTORY_FRESH_TIME_PREF        = "pref_directory_refresh_time";
   private static final String IN_THREAD_NOTIFICATION_PREF      = "pref_key_inthread_notifications";
   public  static final String REPEAT_ALERTS_PREF               = "pref_repeat_alerts";
   private static final String DISABLE_EMOJI_DRAWER             = "pref_disable_emoji_drawer";
   private static final String SHOW_SENT_TIME                   = "pref_show_sent_time";
 
-  private static final String LOCAL_REGISTRATION_ID_PREF       = "pref_local_registration_id";
-  private static final String FALLBACK_SMS_ALLOWED_PREF        = "pref_allow_sms_traffic_out";
-  private static final String FALLBACK_SMS_ASK_REQUIRED_PREF   = "pref_sms_fallback_ask";
-  private static final String DIRECT_SMS_ALLOWED_PREF          = "pref_sms_non_data_out";
-  private static final String FALLBACK_MMS_ENABLED_PREF        = "pref_mms_fallback_enabled";
-  private static final String SIGNED_PREKEY_REGISTERED_PREF    = "pref_signed_prekey_registered";
   private static final String WIFI_SMS_PREF                    = "pref_wifi_sms";
 
-  private static final String GCM_REGISTRATION_ID_PREF         = "pref_gcm_registration_id";
-  private static final String GCM_REGISTRATION_ID_VERSION_PREF = "pref_gcm_registration_id_version";
-  private static final String WEBSOCKET_REGISTERED_PREF        = "pref_websocket_registered";
-
-  private static final String PUSH_REGISTRATION_REMINDER_PREF  = "pref_push_registration_reminder";
   private static final String RATING_LATER_PREF                = "pref_rating_later";
   private static final String RATING_ENABLED_PREF              = "pref_rating_enabled";
   public  static final String NOTIFICATION_PRIVACY_PREF        = "pref_notification_privacy";
@@ -112,14 +96,6 @@ public class SMSSecurePreferences {
     setBooleanPreference(context, RATING_ENABLED_PREF, enabled);
   }
 
-  public static boolean isWebsocketRegistered(Context context) {
-    return getBooleanPreference(context, WEBSOCKET_REGISTERED_PREF, false);
-  }
-
-  public static void setWebsocketRegistered(Context context, boolean registered) {
-    setBooleanPreference(context, WEBSOCKET_REGISTERED_PREF, registered);
-  }
-
   public static boolean isWifiSmsEnabled(Context context) {
     return getBooleanPreference(context, WIFI_SMS_PREF, false);
   }
@@ -137,87 +113,8 @@ public class SMSSecurePreferences {
     setStringPreference(context, REPEAT_ALERTS_PREF, String.valueOf(count));
   }
 
-  public static boolean isSignedPreKeyRegistered(Context context) {
-    return getBooleanPreference(context, SIGNED_PREKEY_REGISTERED_PREF, false);
-  }
-
-  public static void setSignedPreKeyRegistered(Context context, boolean value) {
-    setBooleanPreference(context, SIGNED_PREKEY_REGISTERED_PREF, value);
-  }
-
-  public static void setGcmRegistrationId(Context context, String registrationId) {
-    setStringPreference(context, GCM_REGISTRATION_ID_PREF, registrationId);
-    setIntegerPrefrence(context, GCM_REGISTRATION_ID_VERSION_PREF, Util.getCurrentApkReleaseVersion(context));
-  }
-
-  public static String getGcmRegistrationId(Context context) {
-    int storedRegistrationIdVersion = getIntegerPreference(context, GCM_REGISTRATION_ID_VERSION_PREF, 0);
-
-    if (storedRegistrationIdVersion != Util.getCurrentApkReleaseVersion(context)) {
-      return null;
-    } else {
-      return getStringPreference(context, GCM_REGISTRATION_ID_PREF, null);
-    }
-  }
-
-  public static boolean isFallbackSmsAllowed(Context context) {
-    //TODO: Remove push
-    return false;
-    //return getBooleanPreference(context, FALLBACK_SMS_ALLOWED_PREF, true);
-  }
-
-  public static void setFallbackSmsAllowed(Context context, boolean allowed) {
-    setBooleanPreference(context, FALLBACK_SMS_ALLOWED_PREF, allowed);
-  }
-
-  public static boolean isFallbackSmsAskRequired(Context context) {
-    //TODO: Remove push
-    return false;
-    //return getBooleanPreference(context, FALLBACK_SMS_ASK_REQUIRED_PREF, false);
-  }
-
-  public static void setFallbackSmsAskRequired(Context context, boolean required) {
-    setBooleanPreference(context, FALLBACK_SMS_ASK_REQUIRED_PREF, required);
-  }
-
-  public static boolean isFallbackMmsEnabled(Context context) {
-    //TODO: Remove push
-    return true;
-    //return getBooleanPreference(context, FALLBACK_MMS_ENABLED_PREF, true);
-  }
-
-  public static void setFallbackMmsEnabled(Context context, boolean enabled) {
-    setBooleanPreference(context, FALLBACK_MMS_ENABLED_PREF, enabled);
-  }
-
-  public static boolean isDirectSmsAllowed(Context context) {
-    //TODO: Remove push
-    return true;
-    //return getBooleanPreference(context, DIRECT_SMS_ALLOWED_PREF, true);
-  }
-
-  public static void setDirectSmsAllowed(Context context, boolean allowed) {
-    setBooleanPreference(context, DIRECT_SMS_ALLOWED_PREF, allowed);
-  }
-
-  public static int getLocalRegistrationId(Context context) {
-    return getIntegerPreference(context, LOCAL_REGISTRATION_ID_PREF, 0);
-  }
-
-  public static void setLocalRegistrationId(Context context, int registrationId) {
-    setIntegerPrefrence(context, LOCAL_REGISTRATION_ID_PREF, registrationId);
-  }
-
   public static boolean isInThreadNotifications(Context context) {
     return getBooleanPreference(context, IN_THREAD_NOTIFICATION_PREF, true);
-  }
-
-  public static long getDirectoryRefreshTime(Context context) {
-    return getLongPreference(context, DIRECTORY_FRESH_TIME_PREF, 0L);
-  }
-
-  public static void setDirectoryRefreshTime(Context context, long value) {
-    setLongPreference(context, DIRECTORY_FRESH_TIME_PREF, value);
   }
 
   public static String getLocalNumber(Context context) {
@@ -226,22 +123,6 @@ public class SMSSecurePreferences {
 
   public static void setLocalNumber(Context context, String localNumber) {
     setStringPreference(context, LOCAL_NUMBER_PREF, localNumber);
-  }
-
-  public static String getPushServerPassword(Context context) {
-    return getStringPreference(context, GCM_PASSWORD_PREF, null);
-  }
-
-  public static void setPushServerPassword(Context context, String password) {
-    setStringPreference(context, GCM_PASSWORD_PREF, password);
-  }
-
-  public static void setSignalingKey(Context context, String signalingKey) {
-    setStringPreference(context, SIGNALING_KEY_PREF, signalingKey);
-  }
-
-  public static String getSignalingKey(Context context) {
-    return getStringPreference(context, SIGNALING_KEY_PREF, null);
   }
 
   public static String getEnterKeyType(Context context){
@@ -390,15 +271,6 @@ public class SMSSecurePreferences {
     setBooleanPreference(context, VERIFYING_STATE_PREF, verifying);
   }
 
-  public static boolean isPushRegistered(Context context) {
-    return getBooleanPreference(context, REGISTERED_GCM_PREF, false);
-  }
-
-  public static void setPushRegistered(Context context, boolean registered) {
-    Log.w("SMSSecurePreferences", "Setting push registered: " + registered);
-    setBooleanPreference(context, REGISTERED_GCM_PREF, registered);
-  }
-
   public static boolean isPassphraseTimeoutEnabled(Context context) {
     return getBooleanPreference(context, PASSPHRASE_TIMEOUT_PREF, false);
   }
@@ -425,14 +297,6 @@ public class SMSSecurePreferences {
 
   public static boolean isSmsDeliveryReportsToastEnabled(Context context) {
     return getBooleanPreference(context, SMS_DELIVERY_REPORT_TOAST_PREF, false);
-  }
-
-  public static boolean hasPromptedPushRegistration(Context context) {
-    return getBooleanPreference(context, PROMPTED_PUSH_REGISTRATION_PREF, false);
-  }
-
-  public static void setPromptedPushRegistration(Context context, boolean value) {
-    setBooleanPreference(context, PROMPTED_PUSH_REGISTRATION_PREF, value);
   }
 
   public static boolean hasPromptedDefaultSmsProvider(Context context) {
@@ -493,14 +357,6 @@ public class SMSSecurePreferences {
 
   public static boolean isRoamingMediaDownloadAllowed(Context context) {
     return getBooleanPreference(context, MEDIA_DOWNLOAD_ROAMING_PREF, false);
-  }
-
-  public static long getLastPushReminderTime(Context context) {
-    return getLongPreference(context, PUSH_REGISTRATION_REMINDER_PREF, 0L);
-  }
-
-  public static void setLastPushReminderTime(Context context, long time) {
-    setLongPreference(context, PUSH_REGISTRATION_REMINDER_PREF, time);
   }
 
   public static boolean isEmojiDrawerDisabled(Context context) {

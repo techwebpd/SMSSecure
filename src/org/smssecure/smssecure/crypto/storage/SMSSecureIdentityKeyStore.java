@@ -28,7 +28,7 @@ public class SMSSecureIdentityKeyStore implements IdentityKeyStore {
 
   @Override
   public int getLocalRegistrationId() {
-    return SMSSecurePreferences.getLocalRegistrationId(context);
+    return 0;
   }
 
   @Override

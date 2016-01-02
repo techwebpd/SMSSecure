@@ -207,14 +207,6 @@ public class SmsDatabase extends MessagingDatabase {
     updateTypeBitmask(id, Types.SECURE_MESSAGE_BIT, 0);
   }
 
-  public void markAsPush(long id) {
-    updateTypeBitmask(id, 0, Types.PUSH_MESSAGE_BIT);
-  }
-
-  public void markAsForcedSms(long id) {
-    updateTypeBitmask(id, Types.PUSH_MESSAGE_BIT, Types.MESSAGE_FORCE_SMS_BIT);
-  }
-
   public void markAsDecryptFailed(long id) {
     updateTypeBitmask(id, Types.ENCRYPTION_MASK, Types.ENCRYPTION_REMOTE_FAILED_BIT);
   }
@@ -367,8 +359,6 @@ public class SmsDatabase extends MessagingDatabase {
 //      type |= Types.ENCRYPTION_REMOTE_BIT;
     }
 
-    if (message.isPush()) type |= Types.PUSH_MESSAGE_BIT;
-
     Recipients recipients;
 
     if (message.getSender() != null) {
@@ -406,7 +396,6 @@ public class SmsDatabase extends MessagingDatabase {
       values.put(SUBJECT, message.getPseudoSubject());
 
     values.put(REPLY_PATH_PRESENT, message.isReplyPathPresent());
-    values.put(SERVICE_CENTER, message.getServiceCenterAddress());
     values.put(BODY, message.getMessageBody());
     values.put(TYPE, type);
     values.put(THREAD_ID, threadId);
@@ -429,13 +418,10 @@ public class SmsDatabase extends MessagingDatabase {
     return insertMessageInbox(message, Types.BASE_INBOX_TYPE);
   }
 
-  protected long insertMessageOutbox(long threadId, OutgoingTextMessage message,
-                                     long type, boolean forceSms, long date)
-  {
+  protected long insertMessageOutbox(long threadId, OutgoingTextMessage message, long type, long date) {
     if      (message.isKeyExchange())   type |= Types.KEY_EXCHANGE_BIT;
     else if (message.isSecureMessage()) type |= Types.SECURE_MESSAGE_BIT;
     else if (message.isEndSession())    type |= Types.END_SESSION_BIT;
-    if      (forceSms)                  type |= Types.MESSAGE_FORCE_SMS_BIT;
 
     ContentValues contentValues = new ContentValues(7);
     contentValues.put(ADDRESS, PhoneNumberUtils.formatNumber(message.getRecipients().getPrimaryRecipient().getNumber()));

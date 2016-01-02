@@ -156,7 +156,7 @@ public class MmsSendJob extends SendJob {
     } else if (isInconsistentResponse(message, conf)) {
       throw new UndeliverableMessageException("Mismatched response!");
     } else {
-      return new MmsSendResult(conf.getMessageId(), conf.getResponseStatus(), upgradedSecure, false);
+      return new MmsSendResult(conf.getMessageId(), conf.getResponseStatus(), upgradedSecure);
     }
   }
 

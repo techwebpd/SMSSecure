@@ -39,7 +39,7 @@ public class SMSSecureAxolotlStore implements AxolotlStore {
 
   @Override
   public int getLocalRegistrationId() {
-    return identityKeyStore.getLocalRegistrationId();
+    return 0;
   }
 
   @Override

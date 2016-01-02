@@ -158,7 +158,7 @@ public class SmsDecryptJob extends MasterSecretJob {
         SecurityEvent.broadcastSecurityUpdateEvent(context, threadId);
 
         if (response != null) {
-          MessageSender.send(context, masterSecret, response, threadId, true);
+          MessageSender.send(context, masterSecret, response, threadId);
         }
       } catch (InvalidVersionException e) {
         Log.w(TAG, e);

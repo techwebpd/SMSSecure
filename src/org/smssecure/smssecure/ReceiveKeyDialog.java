@@ -26,6 +26,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,7 +39,6 @@ import org.smssecure.smssecure.database.IdentityDatabase;
 import org.smssecure.smssecure.database.model.MessageRecord;
 import org.smssecure.smssecure.jobs.SmsDecryptJob;
 import org.smssecure.smssecure.recipients.Recipient;
-import org.smssecure.smssecure.sms.IncomingIdentityUpdateMessage;
 import org.smssecure.smssecure.sms.IncomingKeyExchangeMessage;
 import org.smssecure.smssecure.sms.IncomingPreKeyBundleMessage;
 import org.smssecure.smssecure.sms.IncomingTextMessage;
@@ -130,6 +130,7 @@ public class ReceiveKeyDialog extends AlertDialog {
       throws InvalidKeyException, InvalidVersionException,
              InvalidMessageException, LegacyMessageException
   {
+    Log.w(TAG, "Receiving key...");
     IncomingTextMessage message = new IncomingTextMessage(messageRecord.getIndividualRecipient().getNumber(),
                                                           messageRecord.getRecipientDeviceId(),
                                                           System.currentTimeMillis(),
@@ -138,7 +139,8 @@ public class ReceiveKeyDialog extends AlertDialog {
     if (messageRecord.isBundleKeyExchange()) {
       return new IncomingPreKeyBundleMessage(message, message.getMessageBody());
     } else if (messageRecord.isIdentityUpdate()) {
-      return new IncomingIdentityUpdateMessage(message, message.getMessageBody());
+      Log.w(TAG, "Receiving identity update using SMS?");
+      throw new InvalidKeyException("Receiving identity update should not append!");
     } else {
       return new IncomingKeyExchangeMessage(message, message.getMessageBody());
     }

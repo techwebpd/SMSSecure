@@ -51,8 +51,7 @@ public class MessageSender {
   public static long send(final Context context,
                           final MasterSecret masterSecret,
                           final OutgoingTextMessage message,
-                          final long threadId,
-                          final boolean forceSms)
+                          final long threadId)
   {
     EncryptingSmsDatabase database    = DatabaseFactory.getEncryptingSmsDatabase(context);
     Recipients            recipients  = message.getRecipients();
@@ -66,7 +65,7 @@ public class MessageSender {
       allocatedThreadId = threadId;
     }
 
-    long messageId = database.insertMessageOutbox(masterSecret, allocatedThreadId, message, forceSms, System.currentTimeMillis());
+    long messageId = database.insertMessageOutbox(masterSecret, allocatedThreadId, message, System.currentTimeMillis());
 
     sendTextMessage(context, recipients, messageId);
 
@@ -76,8 +75,7 @@ public class MessageSender {
   public static long send(final Context context,
                           final MasterSecret masterSecret,
                           final OutgoingMediaMessage message,
-                          final long threadId,
-                          final boolean forceSms)
+                          final long threadId)
   {
     try {
       ThreadDatabase threadDatabase = DatabaseFactory.getThreadDatabase(context);
@@ -92,7 +90,7 @@ public class MessageSender {
       }
 
       Recipients recipients = message.getRecipients();
-      long       messageId  = database.insertMessageOutbox(masterSecret, message, allocatedThreadId, forceSms);
+      long       messageId  = database.insertMessageOutbox(masterSecret, message, allocatedThreadId);
 
       sendMediaMessage(context, messageId);
 

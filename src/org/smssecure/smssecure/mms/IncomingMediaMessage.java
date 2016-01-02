@@ -16,7 +16,6 @@ public class IncomingMediaMessage {
   private final String  from;
   private final String  body;
   private final String  groupId;
-  private final boolean push;
   private final long    sentTimeMillis;
 
   private final List<String>     to          = new LinkedList<>();
@@ -31,7 +30,6 @@ public class IncomingMediaMessage {
     this.sentTimeMillis = sentTimeMillis;
     this.body           = body;
     this.groupId        = null;
-    this.push           = false;
 
     this.to.addAll(to);
     this.cc.addAll(cc);
@@ -52,10 +50,6 @@ public class IncomingMediaMessage {
 
   public String getGroupId() {
     return groupId;
-  }
-
-  public boolean isPushMessage() {
-    return push;
   }
 
   public long getSentTimeMillis() {

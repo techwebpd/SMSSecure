@@ -198,7 +198,7 @@ public class SmsSendJob extends SendJob {
 
     for (String ignored : messages) {
       sentIntents.add(PendingIntent.getBroadcast(context, 0,
-                                                 constructSentIntent(context, messageId, type, secure, false),
+                                                 constructSentIntent(context, messageId, type, secure),
                                                  0));
     }
 
@@ -222,7 +222,7 @@ public class SmsSendJob extends SendJob {
   }
 
   private Intent constructSentIntent(Context context, long messageId, long type,
-                                       boolean upgraded, boolean push)
+                                       boolean upgraded)
   {
     Intent pending = new Intent(SmsDeliveryListener.SENT_SMS_ACTION,
                                 Uri.parse("custom://" + messageId + System.currentTimeMillis()),
@@ -231,7 +231,6 @@ public class SmsSendJob extends SendJob {
     pending.putExtra("type", type);
     pending.putExtra("message_id", messageId);
     pending.putExtra("upgraded", upgraded);
-    pending.putExtra("push", push);
 
     return pending;
   }

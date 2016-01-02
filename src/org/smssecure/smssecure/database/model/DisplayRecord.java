@@ -64,10 +64,7 @@ public abstract class DisplayRecord {
   }
 
   public boolean isFailed() {
-    return
-        MmsSmsColumns.Types.isFailedMessageType(type)            ||
-        MmsSmsColumns.Types.isPendingSecureSmsFallbackType(type) ||
-        deliveryStatus >= SmsDatabase.Status.STATUS_FAILED;
+    return MmsSmsColumns.Types.isFailedMessageType(type) || deliveryStatus >= SmsDatabase.Status.STATUS_FAILED;
   }
 
   public boolean isPending() {

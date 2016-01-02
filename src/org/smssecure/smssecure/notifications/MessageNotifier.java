@@ -145,14 +145,11 @@ public class MessageNotifier {
 
   private static void updateNotification(Context context, MasterSecret masterSecret, boolean signal, int reminderCount) {
     Cursor telcoCursor = null;
-    Cursor pushCursor  = null;
 
     try {
       telcoCursor = DatabaseFactory.getMmsSmsDatabase(context).getUnread();
 
-      if ((telcoCursor == null || telcoCursor.isAfterLast()) &&
-          (pushCursor == null || pushCursor.isAfterLast()))
-      {
+      if ((telcoCursor == null || telcoCursor.isAfterLast())) {
         ((NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE))
           .cancel(NOTIFICATION_ID);
         clearReminder(context);
@@ -172,7 +169,6 @@ public class MessageNotifier {
       }
     } finally {
       if (telcoCursor != null) telcoCursor.close();
-      if (pushCursor != null)  pushCursor.close();
     }
   }
 

@@ -37,7 +37,6 @@ public interface MmsSmsColumns {
 
     // Message attributes
     protected static final long MESSAGE_ATTRIBUTE_MASK = 0xE0;
-    protected static final long MESSAGE_FORCE_SMS_BIT  = 0x40;
 
     // Key Exchange Information
     protected static final long KEY_EXCHANGE_MASK                = 0xFF00;
@@ -52,7 +51,6 @@ public interface MmsSmsColumns {
     // Secure Message Information
     protected static final long SECURE_MESSAGE_BIT = 0x800000;
     protected static final long END_SESSION_BIT    = 0x400000;
-    protected static final long PUSH_MESSAGE_BIT   = 0x200000;
 
     // Group Message Information
     protected static final long GROUP_UPDATE_BIT = 0x10000;
@@ -85,10 +83,6 @@ public interface MmsSmsColumns {
       return false;
     }
 
-    public static boolean isForcedSms(long type) {
-      return (type & MESSAGE_FORCE_SMS_BIT) != 0;
-    }
-
     public static boolean isPendingMessageType(long type) {
       return
           (type & BASE_TYPE_MASK) == BASE_OUTBOX_TYPE ||
@@ -98,10 +92,6 @@ public interface MmsSmsColumns {
     public static boolean isPendingSmsFallbackType(long type) {
       return (type & BASE_TYPE_MASK) == BASE_PENDING_INSECURE_SMS_FALLBACK ||
              (type & BASE_TYPE_MASK) == BASE_PENDING_SECURE_SMS_FALLBACK;
-    }
-
-    public static boolean isPendingSecureSmsFallbackType(long type) {
-      return (type & BASE_TYPE_MASK) == BASE_PENDING_SECURE_SMS_FALLBACK;
     }
 
     public static boolean isPendingInsecureSmsFallbackType(long type) {
@@ -114,10 +104,6 @@ public interface MmsSmsColumns {
 
     public static boolean isSecureType(long type) {
       return (type & SECURE_MESSAGE_BIT) != 0;
-    }
-
-    public static boolean isPushType(long type) {
-      return (type & PUSH_MESSAGE_BIT) != 0;
     }
 
     public static boolean isEndSessionType(long type) {

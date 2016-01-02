@@ -18,7 +18,6 @@ import android.text.TextUtils;
 
 import org.smssecure.smssecure.ApplicationPreferencesActivity;
 import org.smssecure.smssecure.R;
-import org.smssecure.smssecure.components.OutgoingSmsPreference;
 import org.smssecure.smssecure.util.SMSSecurePreferences;
 import org.smssecure.smssecure.util.Util;
 

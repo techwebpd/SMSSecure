@@ -68,10 +68,10 @@ public class WearReplyReceiver extends MasterSecretBroadcastReceiver {
 
           if (recipients.isGroupRecipient()) {
             OutgoingMediaMessage reply = new OutgoingMediaMessage(recipients, responseText.toString(), new LinkedList<Attachment>(), System.currentTimeMillis(), 0);
-            threadId = MessageSender.send(context, masterSecret, reply, -1, false);
+            threadId = MessageSender.send(context, masterSecret, reply, -1);
           } else {
             OutgoingTextMessage reply = new OutgoingTextMessage(recipients, responseText.toString());
-            threadId = MessageSender.send(context, masterSecret, reply, -1, false);
+            threadId = MessageSender.send(context, masterSecret, reply, -1);
           }
 
           DatabaseFactory.getThreadDatabase(context).setRead(threadId);

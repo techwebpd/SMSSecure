@@ -146,30 +146,18 @@ public class CanonicalAddressDatabase {
   }
 
   public long getCanonicalAddressId(@NonNull String address) {
-    try {
-      long canonicalAddressId;
+    long canonicalAddressId;
 
-      if (isNumberAddress(address) && SMSSecurePreferences.isPushRegistered(context)) {
-        String localNumber = SMSSecurePreferences.getLocalNumber(context);
-
-        if (!ShortCodeUtil.isShortCode(localNumber, address)) {
-          address = PhoneNumberFormatter.formatNumber(address, localNumber);
-        }
-      }
-
-      if ((canonicalAddressId = getCanonicalAddressFromCache(address)) != -1) {
-        return canonicalAddressId;
-      }
-
-      canonicalAddressId = getCanonicalAddressIdFromDatabase(address);
-
-      idCache.put(canonicalAddressId, address);
-      addressCache.put(address, canonicalAddressId);
-
+    if ((canonicalAddressId = getCanonicalAddressFromCache(address)) != -1) {
       return canonicalAddressId;
-    } catch (InvalidNumberException e) {
-      throw new AssertionError(e);
     }
+
+    canonicalAddressId = getCanonicalAddressIdFromDatabase(address);
+
+    idCache.put(canonicalAddressId, address);
+    addressCache.put(address, canonicalAddressId);
+
+    return canonicalAddressId;
   }
 
   public @NonNull List<Long> getCanonicalAddressIds(@NonNull List<String> addresses) {

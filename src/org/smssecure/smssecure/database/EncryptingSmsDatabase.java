@@ -61,14 +61,13 @@ public class EncryptingSmsDatabase extends SmsDatabase {
   }
 
   public long insertMessageOutbox(MasterSecret masterSecret, long threadId,
-                                  OutgoingTextMessage message, boolean forceSms,
-                                  long timestamp)
+                                  OutgoingTextMessage message, long timestamp)
   {
     long type = Types.BASE_OUTBOX_TYPE;
     message   = message.withBody(getEncryptedBody(masterSecret, message.getMessageBody()));
     type     |= Types.ENCRYPTION_SYMMETRIC_BIT;
 
-    return insertMessageOutbox(threadId, message, type, forceSms, timestamp);
+    return insertMessageOutbox(threadId, message, type, timestamp);
   }
 
   public Pair<Long, Long> insertMessageInbox(MasterSecret masterSecret,

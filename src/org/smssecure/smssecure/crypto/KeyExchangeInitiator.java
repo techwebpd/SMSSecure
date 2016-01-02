@@ -76,7 +76,7 @@ public class KeyExchangeInitiator {
     String                     serializedMessage  = Base64.encodeBytesWithoutPadding(keyExchangeMessage.serialize());
     OutgoingKeyExchangeMessage textMessage        = new OutgoingKeyExchangeMessage(recipients, serializedMessage);
 
-    MessageSender.send(context, masterSecret, textMessage, -1, false);
+    MessageSender.send(context, masterSecret, textMessage, -1);
   }
 
   private static boolean hasInitiatedSession(Context context, MasterSecret masterSecret,
